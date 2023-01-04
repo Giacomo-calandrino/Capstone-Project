@@ -12,7 +12,7 @@ public interface SchedaRepository extends PagingAndSortingRepository<Scheda, Lon
 	
 	//Page<Scheda> findByVolume(int volume, Pageable pageable);
 	
-	@Query(value="select s from schede where s.volume <= ?1")
+	@Query(value="select id from Scheda where volume <= ?1")
 	Page<Scheda> findFinoVolume(int volume, Pageable pageable);
 
 }

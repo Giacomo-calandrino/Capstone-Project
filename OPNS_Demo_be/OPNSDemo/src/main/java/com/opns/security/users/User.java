@@ -3,6 +3,7 @@ package com.opns.security.users;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,27 +33,32 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="nome", nullable=false)
-	private String nome;
-	
 	@Column(name="cognome", nullable=false)
 	private String cognome;
 	
 	@Column(name="email", nullable=false)
 	private String email;
 	
-	@Column(name="username", nullable=false)
-	private String username;
+	@Column(name="nome", nullable=false)
+	private String nome;
 	
 	@Column(name="password", nullable=false)
 	private String password;
+
+	
+	@Column(name="username", nullable=false)
+	private String username;
 	
 	@Column(name="volume", nullable=false)
 	private int volume;
 	
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), 
 				inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<Role>();
+	
+	public void addRole(Role role) {
+		roles.add(role);
+	}
 
 }

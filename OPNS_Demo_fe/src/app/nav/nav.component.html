@@ -1,18 +1,20 @@
+<!-- Navbar -->
+
 <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary" aria-label="Fourth navbar example">
   <div class="container-fluid">
     <img class="navbar-brand" src="../../assets/img/Luffys-jolly.png" alt="OPNS">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
+      aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarsExample04">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
           <a class="nav-link" aria-current="page" [routerLink]="['/']" routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact:true}">Home</a>
+            [routerLinkActiveOptions]="{exact:true}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/info']" routerLinkActive="active">Info</a>
+          <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasInfo">Info</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/volumi']" routerLinkActive="active">Volumi</a>
@@ -20,13 +22,159 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profilo</a></li>
-            <li><a class="dropdown-item" [routerLink]="['/register']" routerLinkActive="active">Registrati</a></li>
-            <li><a class="dropdown-item" [routerLink]="['/login']" routerLinkActive="active">Log-in</a></li>
-            <li><a class="dropdown-item" href="#">Log-out</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrati</a>
+            </li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#patchModal">Aggiorna
+                volume</a></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
           </ul>
         </li>
-      </ul>      
+      </ul>
     </div>
   </div>
 </nav>
+
+<!-- Register Modal -->
+
+<div class="modal fade" id="registerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="registerModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="registerModalLabel">Registrati</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="d-flex justify-content-center mb-3">
+            <img class="jolly" src="../../assets/img/Luffys-jolly.png">
+          </div>
+          <h3 class="text-center">Benvenuto sulla nostra nave!!</h3>
+          <p class="text-center">Completa la registrazione e preparati a salpare</p>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingNome" name="nome" type="text" placeholder="Nome" required>
+            <label for="floatingNome">Nome</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingCognome" name="cognome" type="text" placeholder="Cognome" required>
+            <label for="floatingCognome">Cognome</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingEmail" name="email" type="email" placeholder="Email" required>
+            <label for="floatingEmail">Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingUsername" name="username" type="text" placeholder="Username"
+              required>
+            <label for="floatingUsername">Username</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingPassword" name="password" type="password" placeholder="Password"
+              required>
+            <label for="floatingPassword">Password</label>
+          </div>
+          <div class="form-floating">
+            <input class="form-control" id="floatingVolume" name="volume" type="number" min="1" max="103"
+              placeholder="Volume" required>
+            <label for="floatingVolume">Volume</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Registrati</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+
+<div class="modal fade" id="loginModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="loginModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="loginModalLabel">Login</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="d-flex justify-content-center mb-3">
+            <img class="jolly" src="../../assets/img/Luffys-jolly.png">
+          </div>
+          <h3 class="text-center">Bentornato sulla nostra nave!!</h3>
+          <p class="text-center">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia</p>
+          <div class="form-floating mb-3">
+            <input class="form-control" id="floatingUsername" name="username" type="text" placeholder="Username"
+              required>
+            <label for="floatingUsername">Username</label>
+          </div>
+          <div class="form-floating">
+            <input class="form-control" id="floatingPassword" name="password" type="password" placeholder="Password"
+              required>
+            <label for="floatingPassword">Password</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Patch Modal -->
+
+<div class="modal fade" id="patchModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="patchModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="patchModalLabel">Aggiorna volume</h1>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form>
+        <div class="modal-body">
+          <div class="d-flex justify-content-center mb-3">
+            <img class="jolly" src="../../assets/img/Luffys-jolly.png">
+          </div>
+          <h3 class="text-center">ATTENZIONE</h3>
+          <p class="text-center">Stai per modificare l'ultimo volume letto del tuo account</p>
+          <div class="form-floating">
+            <input class="form-control" id="floatingVolume" name="volume" type="number" min="1" max="103"
+              placeholder="Volume" required>
+            <label for="floatingVolume">Volume</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Modifica</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Info Offcanvas -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasInfo" aria-labelledby="offcanvasInfoLabel">
+  <div class="offcanvas-header bg bg-primary">
+    <h5 class="offcanvas-title text-white" id="offcanvasInfoLabel">Info</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      <p>Ti è mai capitato di dimenticare un dettaglio di un opera che magari segui da
+        tanti anni? Allora sei andato su internet per cercarlo e ti sei trovato davanti a un
+        terribile spoiler.</p>
+      <p>Che tu sia un fan di vecchia data o un neofita, One Piece è un opera molto lunga e può capitare di perdersi
+        qualche dettaglio col passare degli anni, ma cercando sul web è molto facile imbatterti in qualcosa che non
+        dovresti ancora sapere.</p>
+      <p>Con noi non dovrai più preoccuparti che questo succeda!!</p>
+      <p>Registrati dicendoci qual è l’ultimo volume che hai letto, il sito si occuperà
+        di filtrare tutto il contenuto del nostro database in modo da mostrarti solo quello
+        che devi sapere.</p>
+      <p>Che stai aspettando? Unisciti a noi per questa grande avventura!!</p>
+      <p>Non avere paura degli spoiler, qui non ne troverai!!</p>
+    </div>
+  </div>

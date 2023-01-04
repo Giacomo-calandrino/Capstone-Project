@@ -5,11 +5,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import com.opns.security.config.WebSecurityConfig;
+import com.opns.security.roles.ERole;
+import com.opns.security.roles.Role;
 
 
 @Service
@@ -25,6 +33,7 @@ public class UserService {
 		return UserResponse
 		.builder()
 		.username(userName)
+		.volume(user.getVolume())
 		.role( user.getRoles().stream().findFirst().get().getRoleName().name()).build();		
 	}
 	
@@ -44,6 +53,10 @@ public class UserService {
 	// post
 	
 	public User createUser(@RequestBody User user) {
+		WebSecurityConfig p = new WebSecurityConfig();
+		BCryptPasswordEncoder a = (BCryptPasswordEncoder)p.passwordEncoder();
+		user.setPassword(a.encode(user.getPassword()));
+		user.addRole(new Role(ERole.ROLE_USER));
 		return userRepository.save(user);
 	}
 	
@@ -61,6 +74,20 @@ public class UserService {
 		return ResponseEntity.ok(updatedUser);
 	}
 	
+	// put volume
+	
+	public ResponseEntity<User> updateVolume(@PathVariable(value = "id") Long userId, 
+			@RequestBody int volume) throws Exception {
+		User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Utente " + userId + " non trovato"));
+		user.setNome(user.getNome());
+		user.setCognome(user.getCognome());
+		user.setEmail(user.getEmail());
+		user.setUsername(user.getUsername());
+		user.setVolume(volume);
+		final User updatedUser = userRepository.save(user);
+		return ResponseEntity.ok(updatedUser);
+	}
+	
 	// delete
 	
 	public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws Exception {
@@ -69,6 +96,29 @@ public class UserService {
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return response;
+	}
+	
+	public User findById(Long id) {
+		if (!userRepository.existsById(id)) {
+			throw new EntityNotFoundException("User not found");
+		}
+		return userRepository.findById(id).get();
+	}
+	
+	public User refresh(Long id, User user) {
+		if (!userRepository.existsById(id)) {
+			throw new EntityNotFoundException("User not found");
+		}
+	
+		return userRepository.save(user);
+		
+	}
+	
+	
+	public void addRole(Long id,Role role) {
+		User u = findById(id);
+		u.addRole(role);
+		refresh(id, u);
 	}
 
 }

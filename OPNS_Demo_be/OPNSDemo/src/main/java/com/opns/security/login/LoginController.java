@@ -54,6 +54,7 @@ public class LoginController {
 				jwt, 
 				userDetails.getId(), 
 				userDetails.getUsername(),
+				userDetails.getVolume(),
 				roles
 			);
 		

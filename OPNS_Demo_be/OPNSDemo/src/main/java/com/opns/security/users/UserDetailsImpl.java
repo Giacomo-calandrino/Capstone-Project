@@ -17,17 +17,20 @@ public class UserDetailsImpl implements UserDetails{
 	
 	private String username;
 	
+	private int volume;
+	
 	@JsonIgnore
 	private String password;	
 	
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	public UserDetailsImpl(Long id, String username, String password,
-			Collection<? extends GrantedAuthority> authorities) {
+			int volume, Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;		
 		this.username = username;
 		this.password = password;		
 		this.authorities = authorities;
+		this.volume = volume;
 	}
 	
 	public static UserDetailsImpl build(User user) {
@@ -39,7 +42,8 @@ public class UserDetailsImpl implements UserDetails{
 		return new UserDetailsImpl(
 				user.getId(),				
 				user.getUsername(), 
-				user.getPassword(),				
+				user.getPassword(),
+				user.getVolume(),
 				authorities);
 	}
 
@@ -52,6 +56,14 @@ public class UserDetailsImpl implements UserDetails{
 		return id;
 	}
 		
+	public int getVolume() {
+		return volume;
+	}
+
+	public void setVolume(int volume) {
+		this.volume = volume;
+	}
+
 	@Override
 	public String getPassword() {
 		return password;
