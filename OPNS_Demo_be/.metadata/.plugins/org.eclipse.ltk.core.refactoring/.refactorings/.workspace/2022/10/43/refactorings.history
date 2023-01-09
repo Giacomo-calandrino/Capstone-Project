@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;GestionePrenotazioniAuth_security.zip_expanded&apos;" deleteContents="false" description="Delete resource &apos;GestionePrenotazioniAuth_security.zip_expanded&apos;" element1="/GestionePrenotazioniAuth_security.zip_expanded" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1666620041490"/>&#x0A;<refactoring comment="Delete resource &apos;GestionePrenotazioni&apos;" deleteContents="false" description="Delete resource &apos;GestionePrenotazioni&apos;" element1="/GestionePrenotazioni" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1666620050651"/>
-</session>

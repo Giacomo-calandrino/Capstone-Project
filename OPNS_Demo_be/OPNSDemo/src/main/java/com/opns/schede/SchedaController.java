@@ -9,8 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,36 +33,36 @@ public class SchedaController {
 	
 	// get by id
 	
-	@GetMapping("/schede/{id}")
-	public ResponseEntity<Scheda> getSchedaById(Long schedaId) throws Exception {
+	@GetMapping("/schede/{schedaId}")
+	public ResponseEntity<Scheda> getSchedaById(@PathVariable Long schedaId) throws Exception {
 		return schedaService.getSchedaById(schedaId);
 	}
 	
 	// post
 	
 	@PostMapping("/schede")
-	public Scheda createScheda(Scheda scheda) {
+	public Scheda createScheda(@RequestBody Scheda scheda) {
 		return schedaService.createScheda(scheda);
 	}
 	
 	// put
 	
-	@PutMapping("/schede/{id}")
-	public ResponseEntity<Scheda> updateScheda(Long schedaId, Scheda schedaDetails) throws Exception {
+	@PutMapping("/schede/{schedaId}")
+	public ResponseEntity<Scheda> updateScheda(@PathVariable Long schedaId, @RequestBody Scheda schedaDetails) throws Exception {
 		return schedaService.updateScheda(schedaId, schedaDetails);
 	}
 	
 	// delete
 	
-	@DeleteMapping("/schede/{id}")
-	public Map<String, Boolean> deleteScheda(Long schedaId) throws Exception {
+	@DeleteMapping("/schede/{schedaId}")
+	public Map<String, Boolean> deleteScheda(@PathVariable Long schedaId) throws Exception {
 		return schedaService.deleteScheda(schedaId);		
 	}
 	
 	// get fino a un determinato volume
 	
-	@GetMapping("/schede/schedelimit/{vol}")
-	public Page<Scheda> getSchedaFinoVolume(int vol, Pageable pageable) throws Exception {
+	@GetMapping("/schede/limit/{vol}")
+	public Page<Scheda> getSchedeFinoVolume(@PathVariable int vol, Pageable pageable) throws Exception {
 		return schedaService.getSchedeFinoVolume(vol, pageable);
 	}
 

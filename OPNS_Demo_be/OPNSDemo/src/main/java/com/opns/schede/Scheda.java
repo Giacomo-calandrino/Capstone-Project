@@ -28,11 +28,12 @@ public class Scheda {
 	private int volume;
 	
 	@Column(name="titolo", nullable=false)
-	private String titolo;
+	private String titolo;	
 	
 	@Column(name="testo", nullable=false)
 	private String testo;
 	
 	@Column(name="imgUrl", nullable=false)
 	private String imgUrl;
+	
 }

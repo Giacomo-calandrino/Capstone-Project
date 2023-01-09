@@ -1,27 +1,28 @@
 package com.opns.security.users;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.opns.security.config.WebSecurityConfig;
 import com.opns.security.roles.ERole;
 import com.opns.security.roles.Role;
 
 
 @Service
 public class UserService {
+	
+	@Autowired
+	private PasswordEncoder encoder;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -52,10 +53,8 @@ public class UserService {
 	
 	// post
 	
-	public User createUser(@RequestBody User user) {
-		WebSecurityConfig p = new WebSecurityConfig();
-		BCryptPasswordEncoder a = (BCryptPasswordEncoder)p.passwordEncoder();
-		user.setPassword(a.encode(user.getPassword()));
+	public User createUser(@RequestBody User user) {		
+		user.setPassword(encoder.encode(user.getPassword()));
 		user.addRole(new Role(ERole.ROLE_USER));
 		return userRepository.save(user);
 	}
@@ -75,7 +74,7 @@ public class UserService {
 	}
 	
 	// put volume
-	
+	/*
 	public ResponseEntity<User> updateVolume(@PathVariable(value = "id") Long userId, 
 			@RequestBody int volume) throws Exception {
 		User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Utente " + userId + " non trovato"));
@@ -86,6 +85,22 @@ public class UserService {
 		user.setVolume(volume);
 		final User updatedUser = userRepository.save(user);
 		return ResponseEntity.ok(updatedUser);
+	}
+	*/
+	
+	// patch
+	
+	public User patchUser(Long id, Map<String, Object> fields) {
+		Optional<User> user = userRepository.findById(id);
+		if (user.isPresent()) {
+			fields.forEach((key, value) -> {
+				Field field = ReflectionUtils.findField(User.class, key);
+				field.setAccessible(true);
+				ReflectionUtils.setField(field, user.get(), value);
+			});
+			return userRepository.save(user.get());
+		}
+		return null;
 	}
 	
 	// delete
@@ -98,6 +113,7 @@ public class UserService {
 		return response;
 	}
 	
+	/*
 	public User findById(Long id) {
 		if (!userRepository.existsById(id)) {
 			throw new EntityNotFoundException("User not found");
@@ -119,6 +135,6 @@ public class UserService {
 		User u = findById(id);
 		u.addRole(role);
 		refresh(id, u);
-	}
+	}*/
 
 }

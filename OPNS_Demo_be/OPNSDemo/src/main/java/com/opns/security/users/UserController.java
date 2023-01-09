@@ -7,15 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.opns.security.roles.Role;
 
 
@@ -35,7 +34,7 @@ public class UserController {
 	
 	// get by id
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/users/{userId}")
 	public ResponseEntity<User> getUserById(Long userId) throws Exception {
 		return userService.getUserById(userId);		
 	}
@@ -55,22 +54,28 @@ public class UserController {
 	}
 	
 	// put volume
-	
+	/*
 	@PutMapping("/users/{userId}")
 	public ResponseEntity<User> updateVolume(@PathVariable Long userId, @RequestBody int volume) throws Exception {
 		return userService.updateVolume(userId, volume);
 	}
+	*/
+	
+	@PatchMapping("/users/{id}")
+	public User patchUser(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
+		return userService.patchUser(id, fields);
+	}
 	
 	// delete
 	
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/users/{userId}")
 	public Map<String, Boolean> deleteUser(Long userId) throws Exception {
 		return userService.deleteUser(userId);
 	}
 	
-	public ResponseEntity<String> addRole(Long id,Role role) {
+	/*public ResponseEntity<String> addRole(Long id,Role role) {
 		userService.addRole(id, role);
 		return ResponseEntity.ok("Role has been added");
-	}
+	}*/
 
 }

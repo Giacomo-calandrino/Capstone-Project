@@ -9,10 +9,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SchedaRepository extends PagingAndSortingRepository<Scheda, Long> {
-	
-	//Page<Scheda> findByVolume(int volume, Pageable pageable);
-	
-	@Query(value="select id from Scheda where volume <= ?1")
+			
+	@Query(value="select s from Scheda s where s.volume <= ?1")
 	Page<Scheda> findFinoVolume(int volume, Pageable pageable);
 
 }
