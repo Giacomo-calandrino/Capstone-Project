@@ -35,6 +35,31 @@
   </div>
 </nav>
 
+<!-- Info Offcanvas -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasInfo" aria-labelledby="offcanvasInfoLabel">
+  <div class="offcanvas-header bg bg-primary">
+    <h5 class="offcanvas-title text-white" id="offcanvasInfoLabel">Info</h5>
+    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div>
+      <p>Ti è mai capitato di dimenticare un dettaglio di un opera che magari segui da
+        tanti anni? Allora sei andato su internet per cercarlo e ti sei trovato davanti a un
+        terribile spoiler.</p>
+      <p>Che tu sia un fan di vecchia data o un neofita, One Piece è un opera molto lunga e può capitare di perdersi
+        qualche dettaglio col passare degli anni, ma cercando sul web è molto facile imbatterti in qualcosa che non
+        dovresti ancora sapere.</p>
+      <p>Con noi non dovrai più preoccuparti che questo succeda!!</p>
+      <p>Registrati dicendoci qual è l’ultimo volume che hai letto, il sito si occuperà
+        di filtrare tutto il contenuto del nostro database in modo da mostrarti solo quello
+        che devi sapere.</p>
+      <p>Che stai aspettando? Unisciti a noi per questa grande avventura!!</p>
+      <p>Non avere paura degli spoiler, qui non ne troverai!!</p>
+    </div>
+  </div>
+</div>
+
 <!-- Register Modal -->
 
 <div class="modal fade" id="registerModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="registerModalLabel"
@@ -53,29 +78,29 @@
           <h3 class="text-center">Benvenuto sulla nostra nave!!</h3>
           <p class="text-center">Completa la registrazione e preparati a salpare</p>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingNome" name="nome" type="text" placeholder="Nome" required>
+            <input class="form-control" id="floatingNome" [(ngModel)]="user.nome" name="nome" type="text" placeholder="Nome" required>
             <label for="floatingNome">Nome</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingCognome" name="cognome" type="text" placeholder="Cognome" required>
+            <input class="form-control" id="floatingCognome" [(ngModel)]="user.cognome" name="cognome" type="text" placeholder="Cognome" required>
             <label for="floatingCognome">Cognome</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingEmail" name="email" type="email" placeholder="Email" required>
+            <input class="form-control" id="floatingEmail" [(ngModel)]="user.email" name="email" type="email" placeholder="Email" required>
             <label for="floatingEmail">Email</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" name="username" type="text" placeholder="Username"
+            <input class="form-control" id="floatingUsername" [(ngModel)]="user.username" name="username" type="text" placeholder="Username"
               required>
             <label for="floatingUsername">Username</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingPassword" name="password" type="password" placeholder="Password"
+            <input class="form-control" id="floatingPassword" [(ngModel)]="user.password" name="password" type="password" placeholder="Password"
               required>
             <label for="floatingPassword">Password</label>
           </div>
           <div class="form-floating">
-            <input class="form-control" id="floatingVolume" name="volume" type="number" min="1" max="103"
+            <input class="form-control" id="floatingVolume" [(ngModel)]="user.volume" name="volume" type="number" min="1" max="104"
               placeholder="Volume" required>
             <label for="floatingVolume">Volume</label>
           </div>
@@ -106,12 +131,12 @@
           <h3 class="text-center">Bentornato sulla nostra nave!!</h3>
           <p class="text-center">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia</p>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" name="username" type="text" placeholder="Username"
+            <input class="form-control" id="floatingUsername" [(ngModel)]="loginData.username" name="username" type="text" placeholder="Username"
               required>
             <label for="floatingUsername">Username</label>
           </div>
           <div class="form-floating">
-            <input class="form-control" id="floatingPassword" name="password" type="password" placeholder="Password"
+            <input class="form-control" id="floatingPassword" [(ngModel)]="loginData.password" name="password" type="password" placeholder="Password"
               required>
             <label for="floatingPassword">Password</label>
           </div>
@@ -142,7 +167,7 @@
           <h3 class="text-center">ATTENZIONE</h3>
           <p class="text-center">Stai per modificare l'ultimo volume letto del tuo account</p>
           <div class="form-floating">
-            <input class="form-control" id="floatingVolume" name="volume" type="number" min="1" max="103"
+            <input class="form-control" id="floatingVolume" [(ngModel)]="user.volume" name="volume" type="number" min="1" max="104"
               placeholder="Volume" required>
             <label for="floatingVolume">Volume</label>
           </div>
@@ -154,27 +179,3 @@
     </div>
   </div>
 </div>
-
-<!-- Info Offcanvas -->
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasInfo" aria-labelledby="offcanvasInfoLabel">
-  <div class="offcanvas-header bg bg-primary">
-    <h5 class="offcanvas-title text-white" id="offcanvasInfoLabel">Info</h5>
-    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div>
-      <p>Ti è mai capitato di dimenticare un dettaglio di un opera che magari segui da
-        tanti anni? Allora sei andato su internet per cercarlo e ti sei trovato davanti a un
-        terribile spoiler.</p>
-      <p>Che tu sia un fan di vecchia data o un neofita, One Piece è un opera molto lunga e può capitare di perdersi
-        qualche dettaglio col passare degli anni, ma cercando sul web è molto facile imbatterti in qualcosa che non
-        dovresti ancora sapere.</p>
-      <p>Con noi non dovrai più preoccuparti che questo succeda!!</p>
-      <p>Registrati dicendoci qual è l’ultimo volume che hai letto, il sito si occuperà
-        di filtrare tutto il contenuto del nostro database in modo da mostrarti solo quello
-        che devi sapere.</p>
-      <p>Che stai aspettando? Unisciti a noi per questa grande avventura!!</p>
-      <p>Non avere paura degli spoiler, qui non ne troverai!!</p>
-    </div>
-  </div>
