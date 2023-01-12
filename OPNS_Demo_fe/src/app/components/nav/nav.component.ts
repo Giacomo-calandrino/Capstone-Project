@@ -2,7 +2,6 @@ import { HttpStatusCode } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
-import Swal from 'sweetalert2';
 import { ILogin, ILoginResponse } from '../../interfaces/ilogin';
 import { IUser } from '../../interfaces/iuser';
 
@@ -27,12 +26,15 @@ export class NavComponent implements OnInit {
     password:''
   }
 
-  username:string = ''
   loginError:boolean = false
+  username:string = ''
 
   constructor(private userService:UserService, private router:Router) { }
 
   ngOnInit(): void {
+    if(this.isUserLogged()){
+      this.getUsername()
+    }
   }
 
   login(){
@@ -40,40 +42,24 @@ export class NavComponent implements OnInit {
       if(HttpStatusCode.Ok){
         this.userService.saveLoggedUser(res.username, res.volume, res.token)
         location.reload()
-      }else{this.loginError = true}
-    })
+      }
+    },() => {this.loginError = true})
   }
 
   signUp(){
     this.userService.signUp(this.user).subscribe((res:IUser) => {
       if(HttpStatusCode.Created){
-        Swal.fire(
-          'Registrazione completata con successo',
-          `Benvenuto a bordo ${res.username}!!`,
-          'success'
-        )
+        console.log(res)
+        // LOGICA PER LOGIN AUTOMATICO
       }
     })
   }
 
   logout(){
     this.userService.logout()
-    
-    this.user = {
-      nome: '',
-      cognome: '',
-      email: '',
-      username: '',
-      password: '',
-      volume: ''
-    }
-    
-    this.loginData = {
-      username: '',
-      password: '',
-    }
-
-    this.router.navigate([''])
+    this.router.navigate(['']).then(() => {
+      location.reload()
+    })
   }
 
   isUserLogged() {

@@ -17,18 +17,23 @@
           <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasInfo">Info</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/volumi']" routerLinkActive="active">Volumi</a>
+          <a class="nav-link" [routerLink]="['/volumi']" routerLinkActive="active" *ngIf="isUserLogged()">Volumi</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Registrati</a>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal" *ngIf="!isUserLogged()">Login</a></li>
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registerModal" *ngIf="!isUserLogged()">Registrati</a>
             </li>
-            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#patchModal">Aggiorna
+            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#patchModal" *ngIf="isUserLogged()">Aggiorna
                 volume</a></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            <li><a class="dropdown-item" href="#" *ngIf="isUserLogged()" (click)="logout()">Logout</a></li>
           </ul>
+        </li>
+      </ul>
+      <ul class="nav">
+        <li>
+          <h5 class="text-white m-0 me-3" *ngIf="isUserLogged()">Ciao, {{username}}</h5>
         </li>
       </ul>
     </div>
@@ -78,35 +83,38 @@
           <h3 class="text-center">Benvenuto sulla nostra nave!!</h3>
           <p class="text-center">Completa la registrazione e preparati a salpare</p>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingNome" [(ngModel)]="user.nome" name="nome" type="text" placeholder="Nome" required>
+            <input class="form-control" id="floatingNome" [(ngModel)]="user.nome" name="nome" type="text"
+              placeholder="Nome" required>
             <label for="floatingNome">Nome</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingCognome" [(ngModel)]="user.cognome" name="cognome" type="text" placeholder="Cognome" required>
+            <input class="form-control" id="floatingCognome" [(ngModel)]="user.cognome" name="cognome" type="text"
+              placeholder="Cognome" required>
             <label for="floatingCognome">Cognome</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingEmail" [(ngModel)]="user.email" name="email" type="email" placeholder="Email" required>
+            <input class="form-control" id="floatingEmail" [(ngModel)]="user.email" name="email" type="email"
+              placeholder="Email" required>
             <label for="floatingEmail">Email</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" [(ngModel)]="user.username" name="username" type="text" placeholder="Username"
-              required>
+            <input class="form-control" id="floatingUsername" [(ngModel)]="user.username" name="username" type="text"
+              placeholder="Username" required>
             <label for="floatingUsername">Username</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingPassword" [(ngModel)]="user.password" name="password" type="password" placeholder="Password"
-              required>
+            <input class="form-control" id="floatingPassword" [(ngModel)]="user.password" name="password"
+              type="password" placeholder="Password" required>
             <label for="floatingPassword">Password</label>
           </div>
           <div class="form-floating">
-            <input class="form-control" id="floatingVolume" [(ngModel)]="user.volume" name="volume" type="number" min="1" max="104"
-              placeholder="Volume" required>
+            <input class="form-control" id="floatingVolume" [(ngModel)]="user.volume" name="volume" type="number"
+              min="1" max="104" placeholder="Volume" required>
             <label for="floatingVolume">Volume</label>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Registrati</button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="signUp()">Registrati</button>
         </div>
       </form>
     </div>
@@ -131,18 +139,21 @@
           <h3 class="text-center">Bentornato sulla nostra nave!!</h3>
           <p class="text-center">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia</p>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" [(ngModel)]="loginData.username" name="username" type="text" placeholder="Username"
-              required>
-            <label for="floatingUsername">Username</label>
+            <input class="form-control" id="floatingUsernameLogin" [(ngModel)]="loginData.username" name="username"
+              type="text" placeholder="Username" required>
+            <label for="floatingUsernameLogin">Username</label>
           </div>
           <div class="form-floating">
-            <input class="form-control" id="floatingPassword" [(ngModel)]="loginData.password" name="password" type="password" placeholder="Password"
-              required>
-            <label for="floatingPassword">Password</label>
+            <input class="form-control" id="floatingPasswordLogin" [(ngModel)]="loginData.password" name="password"
+              type="password" placeholder="Password" required>
+            <label for="floatingPasswordLogin">Password</label>
+          </div>
+          <div class="alert alert-danger" role="alert" *ngIf="loginError">
+            Username e/o password errati
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</button>
+          <button type="button" class="btn btn-primary" (click)="login()">Login</button>
         </div>
       </form>
     </div>
@@ -167,9 +178,9 @@
           <h3 class="text-center">ATTENZIONE</h3>
           <p class="text-center">Stai per modificare l'ultimo volume letto del tuo account</p>
           <div class="form-floating">
-            <input class="form-control" id="floatingVolume" [(ngModel)]="user.volume" name="volume" type="number" min="1" max="104"
-              placeholder="Volume" required>
-            <label for="floatingVolume">Volume</label>
+            <input class="form-control" id="floatingVolumePatch" [(ngModel)]="user.volume" name="volume" type="number"
+              min="1" max="104" placeholder="Volume" required>
+            <label for="floatingVolumePatch">Volume</label>
           </div>
         </div>
         <div class="modal-footer">

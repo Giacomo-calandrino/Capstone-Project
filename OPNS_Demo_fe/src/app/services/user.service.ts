@@ -8,8 +8,6 @@ import { IUser } from '../interfaces/iuser';
 })
 export class UserService {
 
-  // API
-
   registerUrl:string = 'http://localhost:8080/api/users';
   loginUrl:string = 'http://localhost:8080/auth/login';
   patchUrl:string = 'http://localhost:8080/api/users/';
@@ -31,7 +29,7 @@ export class UserService {
   }
 
   patchVolume(volume:number){
-    return this.http.patch<number>(this.patchUrl, volume)
+    return this.http.patch<IUser>(this.patchUrl, volume)
   }
 
   logout(){    

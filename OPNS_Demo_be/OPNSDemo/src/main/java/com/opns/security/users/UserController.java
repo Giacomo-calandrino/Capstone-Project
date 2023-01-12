@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.opns.security.roles.Role;
 
-
 @RestController
+@CrossOrigin(origins="*")
 @RequestMapping("/api")
 public class UserController {
 	
@@ -69,7 +70,7 @@ public class UserController {
 	// delete
 	
 	@DeleteMapping("/users/{userId}")
-	public Map<String, Boolean> deleteUser(Long userId) throws Exception {
+	public Map<String, Boolean> deleteUser(@PathVariable Long userId) throws Exception {
 		return userService.deleteUser(userId);
 	}
 	
