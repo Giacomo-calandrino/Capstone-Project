@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ILogin, ILoginResponse } from '../interfaces/ilogin';
+import { IPatch } from '../interfaces/ipatch';
 import { IUser } from '../interfaces/iuser';
 
 @Injectable({
@@ -8,9 +9,8 @@ import { IUser } from '../interfaces/iuser';
 })
 export class UserService {
 
-  registerUrl:string = 'http://localhost:8080/api/users';
-  loginUrl:string = 'http://localhost:8080/auth/login';
-  patchUrl:string = 'http://localhost:8080/api/users/';
+  registerUrl:string = 'http://localhost:8080/api/users'
+  loginUrl:string = 'http://localhost:8080/auth/login'  
 
   constructor(private http:HttpClient) { }
 
@@ -22,18 +22,22 @@ export class UserService {
     return this.http.post<ILoginResponse>(this.loginUrl, loginData)
   }
 
-  saveLoggedUser(username:string, volume:number, token:string){
+  saveLoggedUser(id:number ,username:string, volume:number, token:string){
+    localStorage.setItem('id', JSON.stringify(id))
     localStorage.setItem('username', JSON.stringify(username))
     localStorage.setItem('volume', JSON.stringify(volume))
     localStorage.setItem('token', token)
   }
 
-  patchVolume(volume:number){
-    return this.http.patch<IUser>(this.patchUrl, volume)
+  patchVolume(patchUrl:string, patchData:IPatch){
+    return this.http.patch<IUser>(patchUrl, patchData)
   }
 
   logout(){    
-    localStorage.clear()
+    localStorage.removeItem('id')
+    localStorage.removeItem('username')
+    localStorage.removeItem('volume')
+    localStorage.removeItem('token')
   }
 
   isUserLogged():boolean {

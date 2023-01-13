@@ -17,7 +17,7 @@
           <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasInfo">Info</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/volumi']" routerLinkActive="active" *ngIf="isUserLogged()">Volumi</a>
+          <a class="nav-link" [routerLink]="['/volumi']" routerLinkActive="active">Volumi</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
@@ -114,7 +114,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="signUp()">Registrati</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="signUp()">Registrati</button>
         </div>
       </form>
     </div>
@@ -129,7 +129,7 @@
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <h1 class="modal-title fs-5 text-white" id="loginModalLabel">Login</h1>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="resetLoginError()"></button>
       </div>
       <form>
         <div class="modal-body">
@@ -148,8 +148,9 @@
               type="password" placeholder="Password" required>
             <label for="floatingPasswordLogin">Password</label>
           </div>
-          <div class="alert alert-danger" role="alert" *ngIf="loginError">
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="loginError">
             Username e/o password errati
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="resetLoginError()"></button>
           </div>
         </div>
         <div class="modal-footer">
@@ -168,7 +169,7 @@
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <h1 class="modal-title fs-5 text-white" id="patchModalLabel">Aggiorna volume</h1>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="resetPatchSuccess()"></button>
       </div>
       <form>
         <div class="modal-body">
@@ -178,13 +179,17 @@
           <h3 class="text-center">ATTENZIONE</h3>
           <p class="text-center">Stai per modificare l'ultimo volume letto del tuo account</p>
           <div class="form-floating">
-            <input class="form-control" id="floatingVolumePatch" [(ngModel)]="user.volume" name="volume" type="number"
+            <input class="form-control" id="floatingVolumePatch" [(ngModel)]="patchData.volume" name="volume" type="number"
               min="1" max="104" placeholder="Volume" required>
             <label for="floatingVolumePatch">Volume</label>
           </div>
+          <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="patchSuccess">
+            Volume modificato con successo
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="resetPatchSuccess()"></button>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Modifica</button>
+          <button type="button" class="btn btn-primary" (click)="patchVolume()">Modifica</button>
         </div>
       </form>
     </div>
