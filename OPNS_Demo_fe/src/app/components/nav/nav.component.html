@@ -2,7 +2,7 @@
 
 <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-primary" aria-label="Fourth navbar example">
   <div class="container-fluid">
-    <img class="navbar-brand" src="../../assets/img/Luffys-jolly.png" alt="OPNS">
+    <img class="navbar-brand" src="../../../assets/img/Luffys-jolly.png" alt="OPNS">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04"
       aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -73,48 +73,56 @@
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <h1 class="modal-title fs-5 text-white" id="registerModalLabel">Registrati</h1>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="resetSignUpAlerts()"></button>
       </div>
-      <form>
+      <form ngNativeValidate #signUpForm>
         <div class="modal-body">
           <div class="d-flex justify-content-center mb-3">
-            <img class="jolly" src="../../assets/img/Luffys-jolly.png">
+            <img class="jolly" src="../../../assets/img/Luffys-jolly.png">
           </div>
           <h3 class="text-center">Benvenuto sulla nostra nave!!</h3>
           <p class="text-center">Completa la registrazione e preparati a salpare</p>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingNome" [(ngModel)]="user.nome" name="nome" type="text"
-              placeholder="Nome" required>
+            <input class="form-control" id="floatingNome" [(ngModel)]="signUpData.nome" name="nome" type="text"
+              placeholder="Nome" minlength="2" required>
             <label for="floatingNome">Nome</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingCognome" [(ngModel)]="user.cognome" name="cognome" type="text"
-              placeholder="Cognome" required>
+            <input class="form-control" id="floatingCognome" [(ngModel)]="signUpData.cognome" name="cognome" type="text"
+              placeholder="Cognome" minlength="2" required>
             <label for="floatingCognome">Cognome</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingEmail" [(ngModel)]="user.email" name="email" type="email"
+            <input class="form-control" id="floatingEmail" [(ngModel)]="signUpData.email" name="email" type="email"
               placeholder="Email" required>
             <label for="floatingEmail">Email</label>
           </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingUsername" [(ngModel)]="user.username" name="username" type="text"
-              placeholder="Username" required>
+            <input class="form-control" id="floatingUsername" [(ngModel)]="signUpData.username" name="username" type="text"
+              placeholder="Username" minlength="2" required>
             <label for="floatingUsername">Username</label>
           </div>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="existingUsername">
+            Username esistente
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="resetSignUpAlerts()"></button>
+          </div>
           <div class="form-floating mb-3">
-            <input class="form-control" id="floatingPassword" [(ngModel)]="user.password" name="password"
-              type="password" placeholder="Password" required>
+            <input class="form-control" id="floatingPassword" [(ngModel)]="signUpData.password" name="password"
+              type="password" placeholder="Password" minlength="2" required>
             <label for="floatingPassword">Password</label>
           </div>
           <div class="form-floating">
-            <input class="form-control" id="floatingVolume" [(ngModel)]="user.volume" name="volume" type="number"
+            <input class="form-control" id="floatingVolume" [(ngModel)]="signUpData.volume" name="volume" type="number"
               min="1" max="104" placeholder="Volume" required>
             <label for="floatingVolume">Volume</label>
           </div>
+          <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="signUpSuccess">
+            Registrazione completata con successo
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="resetSignUpAlerts()"></button>
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="signUp()">Registrati</button>
+          <button type="submit" class="btn btn-primary" (click)="signUpForm.checkValidity()? signUp() : null">Registrati</button>
         </div>
       </form>
     </div>
@@ -131,21 +139,21 @@
         <h1 class="modal-title fs-5 text-white" id="loginModalLabel">Login</h1>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="resetLoginError()"></button>
       </div>
-      <form>
+      <form ngNativeValidate #loginForm>
         <div class="modal-body">
           <div class="d-flex justify-content-center mb-3">
-            <img class="jolly" src="../../assets/img/Luffys-jolly.png">
+            <img class="jolly" src="../../../assets/img/Luffys-jolly.png">
           </div>
           <h3 class="text-center">Bentornato sulla nostra nave!!</h3>
           <p class="text-center">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia</p>
           <div class="form-floating mb-3">
             <input class="form-control" id="floatingUsernameLogin" [(ngModel)]="loginData.username" name="username"
-              type="text" placeholder="Username" required>
+              type="text" placeholder="Username" minlength="2" required>
             <label for="floatingUsernameLogin">Username</label>
           </div>
           <div class="form-floating">
             <input class="form-control" id="floatingPasswordLogin" [(ngModel)]="loginData.password" name="password"
-              type="password" placeholder="Password" required>
+              type="password" placeholder="Password" minlength="2" required>
             <label for="floatingPasswordLogin">Password</label>
           </div>
           <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="loginError">
@@ -154,7 +162,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="login()">Login</button>
+          <button type="submit" class="btn btn-primary" (click)="loginForm.checkValidity()? login() : null">Login</button>
         </div>
       </form>
     </div>
@@ -169,27 +177,27 @@
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <h1 class="modal-title fs-5 text-white" id="patchModalLabel">Aggiorna volume</h1>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="resetPatchSuccess()"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" (click)="resetPatchError()"></button>
       </div>
-      <form>
+      <form ngNativeValidate #patchForm>
         <div class="modal-body">
           <div class="d-flex justify-content-center mb-3">
-            <img class="jolly" src="../../assets/img/Luffys-jolly.png">
+            <img class="jolly" src="../../../assets/img/Luffys-jolly.png">
           </div>
           <h3 class="text-center">ATTENZIONE</h3>
-          <p class="text-center">Stai per modificare l'ultimo volume letto del tuo account</p>
+          <p class="text-center">Stai per aggiornare l'ultimo volume letto del tuo account</p>
           <div class="form-floating">
             <input class="form-control" id="floatingVolumePatch" [(ngModel)]="patchData.volume" name="volume" type="number"
               min="1" max="104" placeholder="Volume" required>
             <label for="floatingVolumePatch">Volume</label>
-          </div>
-          <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="patchSuccess">
-            Volume modificato con successo
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="resetPatchSuccess()"></button>
+          </div>          
+          <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="patchError">
+            Modifica il numero del volume per aggiornare
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="resetPatchError()"></button>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="patchVolume()">Modifica</button>
+          <button type="submit" class="btn btn-primary" (click)="patchForm.checkValidity()? patchVolume() : null">Aggiorna</button>
         </div>
       </form>
     </div>

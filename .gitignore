@@ -1,3 +1,5 @@
 node_modules/
 .metadata/
 sicurezza.zip_expanded/
+.angular/
+.vscode/

@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.opns.security.roles.Role;
-
 @RestController
 @CrossOrigin(origins="*")
 @RequestMapping("/api")
@@ -35,9 +33,9 @@ public class UserController {
 	
 	// get by id
 	
-	@GetMapping("/users/{userId}")
-	public ResponseEntity<User> getUserById(Long userId) throws Exception {
-		return userService.getUserById(userId);		
+	@GetMapping("/users/{id}")
+	public ResponseEntity<User> getUserById(@PathVariable Long id) throws Exception {
+		return userService.getUserById(id);		
 	}
 	
 	// post
@@ -49,18 +47,12 @@ public class UserController {
 	
 	// put
 	
-	@PutMapping("/users/{userId}")
-	public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody User userDetails) throws Exception {
-		return userService.updateUser(userId, userDetails);
+	@PutMapping("/users/{id}")
+	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) throws Exception {
+		return userService.updateUser(id, userDetails);
 	}
 	
-	// put volume
-	/*
-	@PutMapping("/users/{userId}")
-	public ResponseEntity<User> updateVolume(@PathVariable Long userId, @RequestBody int volume) throws Exception {
-		return userService.updateVolume(userId, volume);
-	}
-	*/
+	// patch
 	
 	@PatchMapping("/users/{id}")
 	public User patchUser(@PathVariable Long id, @RequestBody Map<String, Object> fields) {
@@ -69,14 +61,9 @@ public class UserController {
 	
 	// delete
 	
-	@DeleteMapping("/users/{userId}")
-	public Map<String, Boolean> deleteUser(@PathVariable Long userId) throws Exception {
-		return userService.deleteUser(userId);
-	}
-	
-	/*public ResponseEntity<String> addRole(Long id,Role role) {
-		userService.addRole(id, role);
-		return ResponseEntity.ok("Role has been added");
-	}*/
+	@DeleteMapping("/users/{id}")
+	public Map<String, Boolean> deleteUser(@PathVariable Long id) throws Exception {
+		return userService.deleteUser(id);
+	}	
 
 }

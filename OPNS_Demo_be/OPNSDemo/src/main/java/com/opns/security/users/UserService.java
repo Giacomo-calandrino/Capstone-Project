@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.opns.security.roles.ERole;
 import com.opns.security.roles.Role;
@@ -27,13 +28,13 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	// get user basics info
+	// get user basic info
 	
-	public UserResponse getUserBasicInformations(String userName) {
-		User user = userRepository.findByUsername(userName).get();
+	public UserResponse getUserBasicInformations(String username) {
+		User user = userRepository.findByUsername(username).get();
 		return UserResponse
 		.builder()
-		.username(userName)
+		.username(username)
 		.volume(user.getVolume())
 		.role( user.getRoles().stream().findFirst().get().getRoleName().name()).build();		
 	}
@@ -46,14 +47,18 @@ public class UserService {
 	
 	// get by id
 	
-	public ResponseEntity<User> getUserById(@PathVariable(value="id") Long userId) throws Exception {
-		User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Utente " + userId + " non trovato"));
+	public ResponseEntity<User> getUserById(Long id) throws EntityNotFoundException {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Utente " + id + " non trovato"));
 		return ResponseEntity.ok().body(user);		
 	}
 	
 	// post
 	
-	public User createUser(@RequestBody User user) {		
+	public User createUser(User user) {
+		if(userRepository.existsByUsername(user.getUsername())) {
+			throw new EntityExistsException("Username esistente");
+		}
 		user.setPassword(encoder.encode(user.getPassword()));
 		user.addRole(new Role(ERole.ROLE_USER));
 		return userRepository.save(user);
@@ -61,9 +66,9 @@ public class UserService {
 	
 	// put
 	
-	public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId, 
-			@RequestBody User userDetails) throws Exception {
-		User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Utente " + userId + " non trovato"));
+	public ResponseEntity<User> updateUser(Long id, User userDetails) throws EntityNotFoundException {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Utente " + id + " non trovato"));		
 		user.setNome(userDetails.getNome());
 		user.setCognome(userDetails.getCognome());
 		user.setEmail(userDetails.getEmail());
@@ -71,22 +76,7 @@ public class UserService {
 		user.setVolume(userDetails.getVolume());
 		final User updatedUser = userRepository.save(user);
 		return ResponseEntity.ok(updatedUser);
-	}
-	
-	// put volume
-	/*
-	public ResponseEntity<User> updateVolume(@PathVariable(value = "id") Long userId, 
-			@RequestBody int volume) throws Exception {
-		User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Utente " + userId + " non trovato"));
-		user.setNome(user.getNome());
-		user.setCognome(user.getCognome());
-		user.setEmail(user.getEmail());
-		user.setUsername(user.getUsername());
-		user.setVolume(volume);
-		final User updatedUser = userRepository.save(user);
-		return ResponseEntity.ok(updatedUser);
-	}
-	*/
+	}	
 	
 	// patch
 	
@@ -105,36 +95,13 @@ public class UserService {
 	
 	// delete
 	
-	public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws Exception {
-		User user = userRepository.findById(userId).orElseThrow(() -> new Exception("Utente " + userId + " non trovato"));
+	public Map<String, Boolean> deleteUser(Long id) throws EntityNotFoundException {
+		User user = userRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Utente " + id + " non trovato"));
 		userRepository.delete(user);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return response;
-	}
-	
-	/*
-	public User findById(Long id) {
-		if (!userRepository.existsById(id)) {
-			throw new EntityNotFoundException("User not found");
-		}
-		return userRepository.findById(id).get();
-	}
-	
-	public User refresh(Long id, User user) {
-		if (!userRepository.existsById(id)) {
-			throw new EntityNotFoundException("User not found");
-		}
-	
-		return userRepository.save(user);
-		
-	}
-	
-	
-	public void addRole(Long id,Role role) {
-		User u = findById(id);
-		u.addRole(role);
-		refresh(id, u);
-	}*/
+	}	
 
 }

@@ -8,16 +8,59 @@
     </div>
 </div>
 <div class="container">
+    <!--
     <div class="card mt-5 text-bg-light shadow-lg">
-        <div class="d-flex align-items-center row g-0">
+        <div class="row d-flex align-items-center g-0">
             <div class="col-md-4">
-                <img src="../../assets/img/cover/{{imgUrl}}" class="cover img-fluid rounded-start" alt="cover">
+                <img src="../../../assets/img/cover/{{imgUrl}}" class="cover img-fluid rounded-start" alt="cover">
             </div>
             <div class="col-md-7">
                 <div class="card-body">
                     <h2 class="card-title">{{volume}}. {{titolo}}</h2>
                     <p class="card-text">{{testo}}</p>
                 </div>
+            </div>
+        </div>
+    </div>
+    -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+        <div *ngFor="let scheda of schede; let i = index" class="col">
+            <div class="card cover mt-5 text-bg-light shadow-lg">
+                <img src="../../../assets/img/cover/{{scheda.imgUrl}}" class="card-img-top" alt="cover">
+                <div class="card-body">
+                    <h5 class="card-title">{{scheda.titolo}}</h5>
+                    <h6 class="card-subtitle text-muted">Volume {{scheda.volume}}</h6>
+                    <hr>
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal"
+                        class="btn btn-primary float-end">Dettagli</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center loading">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</div>
+
+<!-- Details Modal -->
+
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content text-center">
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title text-white fs-5" id="detailsModalLabel">Volume {{volumeProva}}</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4 class="my-4">{{titoloProva}}</h4>
+                <img class="cover-modal" src="../../../assets/img/cover/{{imgUrlProva}}" alt="cover">
+                <p class=" text-start mt-5 mx-3">{{testoProva}}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Chiudi</button>
             </div>
         </div>
     </div>

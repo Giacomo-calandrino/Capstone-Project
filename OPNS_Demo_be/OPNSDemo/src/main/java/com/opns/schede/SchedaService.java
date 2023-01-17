@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Service
@@ -27,24 +27,23 @@ public class SchedaService {
 	
 	//get by id
 	
-	public ResponseEntity<Scheda> getSchedaById(@PathVariable(value="id") Long schedaId) throws Exception {
-		Scheda scheda = schedaRepository.findById(schedaId)
-				.orElseThrow(() -> new Exception("Scheda " + schedaId + " non trovata"));
+	public ResponseEntity<Scheda> getSchedaById(Long id) throws EntityNotFoundException {
+		Scheda scheda = schedaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Scheda " + id + " non trovata"));
 		return ResponseEntity.ok().body(scheda);
 	}
 	
 	// post
 	
-	public Scheda createScheda(@RequestBody Scheda scheda) {
+	public Scheda createScheda(Scheda scheda) {
 		return schedaRepository.save(scheda);
 	}
 	
 	// put
 	
-	public ResponseEntity<Scheda> updateScheda(@PathVariable(value = "id") Long schedaId, 
-			@RequestBody Scheda schedaDetails) throws Exception {
-		Scheda scheda = schedaRepository.findById(schedaId)
-				.orElseThrow(() -> new Exception("Scheda " + schedaId + " non trovata"));
+	public ResponseEntity<Scheda> updateScheda(Long id, Scheda schedaDetails) throws EntityNotFoundException {
+		Scheda scheda = schedaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Scheda " + id + " non trovata"));
 		scheda.setVolume(schedaDetails.getVolume());
 		scheda.setTitolo(schedaDetails.getTitolo());
 		scheda.setTesto(schedaDetails.getTesto());
@@ -55,9 +54,9 @@ public class SchedaService {
 	
 	// delete
 	
-	public Map<String, Boolean> deleteScheda(@PathVariable(value = "id") Long schedaId) throws Exception {
-		Scheda scheda = schedaRepository.findById(schedaId)
-				.orElseThrow(() -> new Exception("Scheda " + schedaId + " non trovata"));
+	public Map<String, Boolean> deleteScheda(Long id) throws EntityNotFoundException {
+		Scheda scheda = schedaRepository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("Scheda " + id + " non trovata"));
 		schedaRepository.delete(scheda);
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
