@@ -3,6 +3,8 @@ package com.opns.schede;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +37,7 @@ public class SchedaController {
 	// get by id
 	
 	@GetMapping("/schede/{schedaId}")
-	public ResponseEntity<Scheda> getSchedaById(@PathVariable Long schedaId) throws Exception {
+	public ResponseEntity<Scheda> getSchedaById(@PathVariable Long schedaId) throws EntityNotFoundException {
 		return schedaService.getSchedaById(schedaId);
 	}
 	
@@ -49,22 +51,30 @@ public class SchedaController {
 	// put
 	
 	@PutMapping("/schede/{schedaId}")
-	public ResponseEntity<Scheda> updateScheda(@PathVariable Long schedaId, @RequestBody Scheda schedaDetails) throws Exception {
+	public ResponseEntity<Scheda> updateScheda(@PathVariable Long schedaId, @RequestBody Scheda schedaDetails) 
+			throws EntityNotFoundException {
 		return schedaService.updateScheda(schedaId, schedaDetails);
 	}
 	
 	// delete
 	
 	@DeleteMapping("/schede/{schedaId}")
-	public Map<String, Boolean> deleteScheda(@PathVariable Long schedaId) throws Exception {
+	public Map<String, Boolean> deleteScheda(@PathVariable Long schedaId) throws EntityNotFoundException {
 		return schedaService.deleteScheda(schedaId);		
 	}
 	
 	// get fino a un determinato volume
 	
+	
 	@GetMapping("/schede/limit/{vol}")
-	public Page<Scheda> getSchedeFinoVolume(@PathVariable int vol, Pageable pageable) throws Exception {
+	public Page<Scheda> getSchedeFinoVolume(@PathVariable int vol, Pageable pageable){
 		return schedaService.getSchedeFinoVolume(vol, pageable);
+	}
+	
+	
+	@GetMapping("/schede/noSpoiler/{vol}")
+	public List<Scheda> getSchedeNoSpoiler(@PathVariable int vol){
+		return schedaService.getSchedeNoSpoiler(vol);
 	}
 
 }

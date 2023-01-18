@@ -23,7 +23,7 @@
         </div>
     </div>
     -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+    <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-5">
         <div *ngFor="let scheda of schede; let i = index" class="col">
             <div class="card cover mt-5 text-bg-light shadow-lg">
                 <img src="../../../assets/img/cover/{{scheda.imgUrl}}" class="card-img-top" alt="cover">
@@ -32,7 +32,7 @@
                     <h6 class="card-subtitle text-muted">Volume {{scheda.volume}}</h6>
                     <hr>
                     <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal"
-                        class="btn btn-primary float-end">Dettagli</a>
+                        class="btn btn-primary float-end" (click)="getSchedaDetails(scheda.id)">Dettagli</a>
                 </div>
             </div>
         </div>
@@ -50,14 +50,14 @@
     <div class="modal-dialog">
         <div class="modal-content text-center">
             <div class="modal-header bg-primary">
-                <h1 class="modal-title text-white fs-5" id="detailsModalLabel">Volume {{volumeProva}}</h1>
+                <h1 class="modal-title text-white fs-5" id="detailsModalLabel">Volume {{schedaDetails.volume}}</h1>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h4 class="my-4">{{titoloProva}}</h4>
-                <img class="cover-modal" src="../../../assets/img/cover/{{imgUrlProva}}" alt="cover">
-                <p class=" text-start mt-5 mx-3">{{testoProva}}</p>
+                <h4 class="my-4">{{schedaDetails.titolo}}</h4>
+                <img class="cover-modal" src="../../../assets/img/cover/{{schedaDetails.imgUrl}}" alt="cover">
+                <p class=" text-start mt-5 mx-3">{{schedaDetails.testo}}</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Chiudi</button>

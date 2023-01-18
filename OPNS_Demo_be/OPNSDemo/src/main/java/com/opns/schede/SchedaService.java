@@ -65,8 +65,14 @@ public class SchedaService {
 	
 	// get fino a un determinato volume
 	
+	
 	public Page<Scheda> getSchedeFinoVolume(int volume, Pageable pageable){
 		return (Page<Scheda>) schedaRepository.findFinoVolume(volume, pageable);
 	}
-
+	
+	
+	public List<Scheda> getSchedeNoSpoiler(int volume){
+		return (List<Scheda>) schedaRepository.findNoSpoiler(volume);
+	}
+	
 }

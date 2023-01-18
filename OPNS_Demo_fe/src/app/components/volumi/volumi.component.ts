@@ -15,7 +15,13 @@ export class VolumiComponent implements OnInit {
   imgUrlProva:string = 'volume1.jpg'
 
   schede!:IScheda[]
-  schedaDetails!:IScheda
+  schedaDetails:IScheda = {
+    id: '',
+    volume: '',
+    titolo: '',
+    testo: '',
+    imgUrl: 'volume1.jpg'
+  }
   isLoading:boolean = false
 
   localVolume:number = this.getLocalVolume()
@@ -29,8 +35,14 @@ export class VolumiComponent implements OnInit {
   getSchede(){
     this.isLoading = true
     this.schedaService.getSchede(this.localVolume).subscribe((res:IScheda[]) => {
-      this.schede = res
+      this.schede = res      
       this.isLoading = false
+    })
+  }
+
+  getSchedaDetails(id:number|string){
+    this.schedaService.getSchedaDetails(id).subscribe((res:IScheda) => {
+      this.schedaDetails = res
     })
   }
 

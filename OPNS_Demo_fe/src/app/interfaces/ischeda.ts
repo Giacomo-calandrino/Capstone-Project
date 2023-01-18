@@ -1,5 +1,5 @@
 export interface IScheda {
-    id:number;
+    id:number | string;
     volume:number | string;
     titolo:string;
     testo:string;

@@ -3,6 +3,8 @@ package com.opns.security.users;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,7 +36,7 @@ public class UserController {
 	// get by id
 	
 	@GetMapping("/users/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable Long id) throws Exception {
+	public ResponseEntity<User> getUserById(@PathVariable Long id) throws EntityNotFoundException {
 		return userService.getUserById(id);		
 	}
 	
@@ -48,7 +50,8 @@ public class UserController {
 	// put
 	
 	@PutMapping("/users/{id}")
-	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) throws Exception {
+	public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) 
+			throws EntityNotFoundException {
 		return userService.updateUser(id, userDetails);
 	}
 	
@@ -62,7 +65,7 @@ public class UserController {
 	// delete
 	
 	@DeleteMapping("/users/{id}")
-	public Map<String, Boolean> deleteUser(@PathVariable Long id) throws Exception {
+	public Map<String, Boolean> deleteUser(@PathVariable Long id) throws EntityNotFoundException {
 		return userService.deleteUser(id);
 	}	
 
