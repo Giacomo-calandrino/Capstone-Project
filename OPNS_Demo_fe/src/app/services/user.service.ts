@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { ILogin, ILoginResponse } from '../interfaces/ilogin';
 import { IPatch } from '../interfaces/ipatch';
 import { IUser } from '../interfaces/iuser';
@@ -10,7 +11,9 @@ import { IUser } from '../interfaces/iuser';
 export class UserService {
 
   registerUrl:string = 'http://localhost:8080/api/users'
-  loginUrl:string = 'http://localhost:8080/auth/login'  
+  loginUrl:string = 'http://localhost:8080/auth/login'
+  
+  jwtHelper = new JwtHelperService()
 
   constructor(private http:HttpClient) { }
 
@@ -40,8 +43,11 @@ export class UserService {
     localStorage.removeItem('token')
   }
 
-  isUserLogged():boolean {
-    return localStorage.getItem('token') != null
+  isUserLogged(){
+    if (localStorage.getItem('token') != null){
+      return !this.jwtHelper.isTokenExpired(localStorage.getItem('token')!)
+    }
+    return false
   }
 
 }

@@ -3,15 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { VolumiRoutingModule } from './volumi-routing.module';
 import { VolumiComponent } from './volumi.component';
+import { SearchComponent } from '../search/search.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [
-    VolumiComponent
+    VolumiComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,
-    VolumiRoutingModule
+    VolumiRoutingModule,
+    FormsModule
   ]
 })
 export class VolumiModule { }
