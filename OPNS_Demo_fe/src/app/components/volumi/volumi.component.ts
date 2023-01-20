@@ -10,6 +10,9 @@ import { SchedaService } from 'src/app/services/scheda.service';
 export class VolumiComponent implements OnInit {  
 
   schede!:IScheda[]
+  page = 1
+  count = 0
+
   schedaDetails:IScheda = {
     id: '',
     volume: '',
@@ -49,8 +52,10 @@ export class VolumiComponent implements OnInit {
     return this.localVolume = JSON.parse(utente)
   }
 
-  onSearchTextEntered(searchValue:string){
-    this.searchText = searchValue
-  }
+  onTableDataChange(event:any){
+    this.page = event
+    this.getSchede()
+    window.scrollTo(0,270)
+  } 
 
 }

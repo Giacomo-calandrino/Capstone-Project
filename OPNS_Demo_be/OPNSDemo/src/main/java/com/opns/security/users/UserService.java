@@ -18,7 +18,6 @@ import org.springframework.util.ReflectionUtils;
 import com.opns.security.roles.ERole;
 import com.opns.security.roles.Role;
 
-
 @Service
 public class UserService {
 	

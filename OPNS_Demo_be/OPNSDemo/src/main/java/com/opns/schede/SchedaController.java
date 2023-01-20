@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,9 +34,9 @@ public class SchedaController {
 	
 	// get by id
 	
-	@GetMapping("/schede/{schedaId}")
-	public ResponseEntity<Scheda> getSchedaById(@PathVariable Long schedaId) throws EntityNotFoundException {
-		return schedaService.getSchedaById(schedaId);
+	@GetMapping("/schede/{id}")
+	public ResponseEntity<Scheda> getSchedaById(@PathVariable Long id) throws EntityNotFoundException {
+		return schedaService.getSchedaById(id);
 	}
 	
 	// post
@@ -50,31 +48,24 @@ public class SchedaController {
 	
 	// put
 	
-	@PutMapping("/schede/{schedaId}")
-	public ResponseEntity<Scheda> updateScheda(@PathVariable Long schedaId, @RequestBody Scheda schedaDetails) 
+	@PutMapping("/schede/{id}")
+	public ResponseEntity<Scheda> updateScheda(@PathVariable Long id, @RequestBody Scheda schedaDetails) 
 			throws EntityNotFoundException {
-		return schedaService.updateScheda(schedaId, schedaDetails);
+		return schedaService.updateScheda(id, schedaDetails);
 	}
 	
 	// delete
 	
-	@DeleteMapping("/schede/{schedaId}")
-	public Map<String, Boolean> deleteScheda(@PathVariable Long schedaId) throws EntityNotFoundException {
-		return schedaService.deleteScheda(schedaId);		
+	@DeleteMapping("/schede/{id}")
+	public Map<String, Boolean> deleteScheda(@PathVariable Long id) throws EntityNotFoundException {
+		return schedaService.deleteScheda(id);		
 	}
 	
 	// get fino a un determinato volume
-	
-	
-	@GetMapping("/schede/limit/{vol}")
-	public Page<Scheda> getSchedeFinoVolume(@PathVariable int vol, Pageable pageable){
-		return schedaService.getSchedeFinoVolume(vol, pageable);
-	}
-	
-	
-	@GetMapping("/schede/noSpoiler/{vol}")
-	public List<Scheda> getSchedeNoSpoiler(@PathVariable int vol){
-		return schedaService.getSchedeNoSpoiler(vol);
+		
+	@GetMapping("/schede/noSpoiler/{volume}")
+	public List<Scheda> getSchedeNoSpoiler(@PathVariable int volume){
+		return schedaService.getSchedeNoSpoiler(volume);
 	}
 
 }

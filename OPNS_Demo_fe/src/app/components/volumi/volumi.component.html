@@ -1,35 +1,38 @@
 <div class="header">
     <div class="container">
-        <h2 class="py-5 text-white">Benvenuto nella sezione Volumi</h2>
-        <h3 class="text-white">Qui potrai leggere tutto quello che c’è da sapere
-            sulla storia dell’opera</h3>
-        <h3 class="py-5 text-danger">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia.
+        <h2 class="py-5 text-white">Benvenuto nella sezione VOLUMI</h2>
+        <h4 class="text-white">Questa è una collection virtuale di tutti i volumi che hai già letto</h4>
+        <h4 class=" py-3 text-white">Hai dimenticato un dettaglio della storia che hai letto un'pò di tempo fa? Nessun
+            problema, lo troverai qua</h4>
+        <h3 class="py-5 text-danger">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia
         </h3>
     </div>
 </div>
 <div class="container">
 
-    <!-- Search bar -->
-
-    <app-search (searchTextChanged)="onSearchTextEntered($event)"></app-search>
-
     <!-- Volumi -->
 
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-5">
-        <ng-container *ngFor="let scheda of schede; let i = index" class="col">
-            <div *ngIf="searchText == '' || scheda.volume.toString().toLowerCase().includes(searchText) || scheda.titolo.toLowerCase().includes(searchText) || scheda.testo.toLowerCase().includes(searchText)">
-                <div class="card cover mt-5 text-bg-light shadow-lg">
-                    <img src="../../../assets/img/cover/{{scheda.imgUrl}}" class="card-img-top cover-img" alt="cover">
-                    <div class="card-body">
-                        <h5 class="card-title">Volume {{scheda.volume}}</h5>
-                        <hr>
-                        <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDetails"
-                            class="float-end" (click)="getSchedaDetails(scheda.id)">Dettagli</a>
-                    </div>
+        <div *ngFor="let scheda of schede | paginate: {itemsPerPage: 20, currentPage: page, totalItems: count}; let i = index"
+            class="col">
+            <div class="card cover mt-5 text-bg-light shadow-lg">
+                <img src="../../../assets/img/cover/{{scheda.imgUrl}}" class="card-img-top cover-img" alt="cover">
+                <div class="card-body">
+                    <h5 class="card-title">Volume {{scheda.volume}}</h5>
+                    <hr>
+                    <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDetails" class="float-end"
+                        (click)="getSchedaDetails(scheda.id)">Dettagli</a>
                 </div>
             </div>
-        </ng-container>
-    </div>    
+        </div>
+    </div>
+
+    <!-- Pagination controls -->
+
+    <div class="d-flex justify-content-center mt-5 pt-5">
+        <pagination-controls previousLabel="Prev" nextLabel="Next"
+            (pageChange)="onTableDataChange($event)"></pagination-controls>
+    </div>
 
     <!-- Loading -->
 
@@ -38,7 +41,6 @@
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
-
 </div>
 
 <!-- Details Offcanvas -->
