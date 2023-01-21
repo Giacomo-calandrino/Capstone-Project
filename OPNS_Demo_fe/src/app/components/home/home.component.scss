@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'roboto';
+    src: url(../../../assets/fonts/Roboto-Regular.ttf);
+}
+
+*{
+    font-family: 'roboto';
+}
+
 .header{
     background-image: url(../../../assets/img/headerdawnmerry.jpg);
     background-size: cover;
@@ -5,11 +14,14 @@
     background-repeat: no-repeat;
     height: fit-content;
     font-weight: bold;
-    margin-top: 4rem;    
+    margin-top: 4rem;
+    text-shadow: 1px 1px 2px black, 0 0 1em black, 0 0 0.2em black;    
 }
+
 .alert{
     font-size: x-large;
 }
+
 .cover{
     width: fit-content;
 }

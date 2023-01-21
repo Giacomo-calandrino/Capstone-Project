@@ -4,8 +4,8 @@
         <h4 class="text-white">Questa è una collection virtuale di tutti i volumi che hai già letto</h4>
         <h4 class=" py-3 text-white">Hai dimenticato un dettaglio della storia che hai letto un'pò di tempo fa? Nessun
             problema, lo troverai qua</h4>
-        <h3 class="py-5 text-danger">Ricordati di aggiornare l'ultimo volume letto man mano che prosegui con la storia
-        </h3>
+        <h4 class="py-5 text-white">Ricordati di aggiornare l'ultimo volume man mano che prosegui con la storia
+        </h4>
     </div>
 </div>
 <div class="container">
@@ -29,15 +29,15 @@
 
     <!-- Pagination controls -->
 
-    <div class="d-flex justify-content-center mt-5 pt-5">
+    <div *ngIf="!isLoading" class="d-flex justify-content-center mt-5 pt-5">
         <pagination-controls previousLabel="Prev" nextLabel="Next"
             (pageChange)="onTableDataChange($event)"></pagination-controls>
     </div>
 
     <!-- Loading -->
 
-    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center loading">
-        <div class="spinner-border text-primary" role="status">
+    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center div-loading">
+        <div class="spinner-border text-primary loading" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>
